@@ -1,25 +1,25 @@
 ﻿@page "/labeltext"
 @using  Microsoft.AspNetCore.SignalR.Client;
-
 @inject IJSRuntime _js
-@inject HttpCaller.LabelTextCaller _service;
-
-
+@*inject HttpCaller.LabelTextCaller _service;*@
 
 <h3>Signal R</h3>
+
 
 <div>
     <div class="container">
      
         <h5>Read label text:   
         
-        <label>@ReceivedLabelText</label>
+            <label>@ReceivedLabelText</label> 
         </h5>
+    </div>
+
     <hr/>
+
     <div class="container">
         @_connectionStatusMessage
     </div>
-</div>
 </div>
 
 
@@ -33,11 +33,9 @@
     protected override async Task OnInitializedAsync()
     {
         
-       // await _service.GetLabelText();
-        await StartHub();
-
-        LabelTextListener();
-        await _service.GetLabelTextAsync();
+       await StartHub();
+       LabelTextListener();
+       //await _service.GetLabelTextAsync();
 
     }
 
