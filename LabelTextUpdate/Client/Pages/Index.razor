@@ -1,9 +1,56 @@
 ﻿@page "/"
+@using  Microsoft.AspNetCore.SignalR.Client;
+@inject IJSRuntime _js
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h3>Signal R</h3>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div>
+    <div class="container">
+     
+        <h5>Read label text:   
+            <label>@ReceivedLabelText</label> 
+        </h5>
+    </div>
+
+    <hr/>
+
+    <div class="container">
+        @_connectionStatusMessage
+    </div>
+</div>
+
+
+@code {
+    private HubConnection _hubConn;
+    private string _connectionStatusMessage;
+    
+    public string ReceivedLabelText = "initialText";
+    
+    protected override async Task OnInitializedAsync()
+    {
+       await StartHub();
+       LabelTextListener();
+    }
+
+
+    private async Task StartHub()
+    {
+        _hubConn = new HubConnectionBuilder().WithUrl("https://localhost:7193/labelText").Build();
+        await _hubConn.StartAsync();
+
+        _connectionStatusMessage = _hubConn.State == HubConnectionState.Connected ? "SignalR Hub connection is established Successfully..." : "SignalR Hub connection is not established...";
+    }
+
+    private void LabelTextListener()
+    {
+        _hubConn.On<string>("SendLabelText",  data =>
+        {
+            ReceivedLabelText = data;
+            StateHasChanged();
+        });
+    }
+ 
+    public async Task Dispose() => await _hubConn.DisposeAsync();
+}
