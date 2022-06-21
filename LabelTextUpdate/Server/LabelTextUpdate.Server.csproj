@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Properties\launchSettings-2.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\launchSettings-2.json" />
+    <_WebToolingArtifacts Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\LabelTextUpdate.Client.csproj" />
+    <ProjectReference Include="..\Shared\LabelTextUpdate.Shared.csproj" />
+  </ItemGroup>
+
+
+</Project>
